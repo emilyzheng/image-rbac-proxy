@@ -59,6 +59,7 @@ func Authz(next http.Handler) http.Handler {
 					} else {
 						// Verify serive account's token issued by OpenShift
 						username = handlers.VerifyServiceAccount(token)
+						groups = append(groups, "system:authenticated")
 					}
 				}
 				if username == "" {
