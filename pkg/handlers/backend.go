@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -61,6 +62,11 @@ func (bp *BackendProxy) Initialize(r *http.Request) {
 			req.URL.Host = bp.GetURL().Host
 			req.URL.Scheme = bp.GetURL().Scheme
 			req.Host = bp.GetURL().Host
+
+			// add client IP
+			clientIP, _, _ := net.SplitHostPort(req.RemoteAddr)
+			req.Header.Set("X-Real-IP", clientIP)
+			req.Header.Set("X-Forwarded-For", clientIP)
 		},
 		ErrorHandler: func(w http.ResponseWriter, r *http.Request, err error) {
 			logrus.WithError(err).Error("Backend request failed")
