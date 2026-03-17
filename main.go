@@ -16,6 +16,7 @@ import (
 )
 
 func main() {
+	// Test comment for Qodo PR testing
 	// Setup logging
 	logrus.SetFormatter(&logrus.JSONFormatter{TimestampFormat: time.RFC3339Nano})
 	level, _ := logrus.ParseLevel("info")
